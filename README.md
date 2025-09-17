@@ -35,7 +35,11 @@ It performs basic arithmetic operations such as addition, subtraction, multiplic
 4. Start using the calculator!
 
 ---
+🌍 Live Demo
 
+🔗 Click here to view the live site<br>
+https://jyotheeswar60.github.io/Calculator/
+---
 ## 📸 Screenshot
 
 <img width="1878" height="906" alt="image" src="https://github.com/user-attachments/assets/065fa6d3-594e-423a-a0c0-b5a26d5b20ff" />
