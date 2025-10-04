@@ -1,57 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator using javascript</title>
+    <title>Modern Calculator</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for a nice, clean font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Link to the external stylesheet -->
     <link rel="stylesheet" href="style.css">
-    <script src="javascrip.js" defer></script>
 </head>
+<body class="bg-gray-900 flex items-center justify-center min-h-screen">
 
-<body>
-    <h1>
-        Calculator using javascript
-    </h1>
-    <div class="container">
-        <div class="calculator">
-            <form name="calc">
-                <div class="display">
-                    <input type="text" name="display">
-                </div>
-                <div>
-                    <input type="button" value="AC" onclick="clearDisplay()">
-                    <input type="button" value="DL" onclick="deleteChar()">
-                    <input type="button" value="." onclick="appendChar('.')">
-                    <input type="button" value="/" onclick="appendChar('/')">
-                </div>
-                <div>
-                    <input type="button" value="7" onclick="this.form.display.value +='7' ">
-                    <input type="button" value="8" onclick="this.form.display.value +='8' ">
-                    <input type="button" value="9" onclick="this.form.display.value +='9' ">
-                    <input type="button" value="*" onclick="this.form.display.value +='*' ">
-                </div>
-                <div>
-                    <input type="button" value="4" onclick="this.form.display.value +='4' ">
-                    <input type="button" value="5" onclick="this.form.display.value +='5' ">
-                    <input type="button" value="6" onclick="this.form.display.value +='6' ">
-                    <input type="button" value="-" onclick="this.form.display.value +='-' ">
-                </div>
-                <div>
-                    <input type="button" value="1" onclick="this.form.display.value +='1' ">
-                    <input type="button" value="2" onclick="this.form.display.value +='2' ">
-                    <input type="button" value="3" onclick="this.form.display.value +='3' ">
-                    <input type="button" value="+" onclick="this.form.display.value +='+' ">
-                </div>
-                <div>
-                    <input type="button" value="00" onclick="this.form.display.value +='00' ">
-                    <input type="button" value="0" onclick="this.form.display.value +='0' ">
-                    <input type="button" value="=" class="equal" onclick="calculate()">
-                </div>
-            </form>
+    <!-- Calculator Body -->
+    <div class="w-full max-w-sm mx-auto bg-gray-800 rounded-3xl shadow-2xl p-6 space-y-6">
+        
+        <!-- Display Screen -->
+        <div class="bg-gray-900 rounded-xl p-4 shadow-inner overflow-hidden">
+            <input 
+                id="display" 
+                type="text" 
+                readonly 
+                class="w-full bg-transparent text-white text-right font-mono focus:outline-none" 
+                value="0"
+                aria-label="Calculator Display"
+            >
+        </div>
+
+        <!-- Buttons Grid -->
+        <div class="grid grid-cols-4 gap-4">
+            <!-- Row 1 -->
+            <button onclick="clearDisplay()" class="calc-btn bg-gray-600 hover:bg-gray-500 text-white text-2xl font-bold py-5 rounded-xl shadow-lg">AC</button>
+            <button onclick="deleteLast()" class="calc-btn bg-gray-600 hover:bg-gray-500 text-white text-2xl font-bold py-5 rounded-xl shadow-lg">DEL</button>
+            <button onclick="appendCharacter('%')" class="calc-btn bg-orange-500 hover:bg-orange-400 text-white text-2xl font-bold py-5 rounded-xl shadow-lg">%</button>
+            <button onclick="appendCharacter('/')" class="calc-btn bg-orange-500 hover:bg-orange-400 text-white text-2xl font-bold py-5 rounded-xl shadow-lg">÷</button>
+            
+            <!-- Row 2 -->
+            <button onclick="appendCharacter('7')" class="calc-btn bg-gray-700 hover:bg-gray-600 text-white text-2xl font-bold py-5 rounded-xl shadow-lg">7</button>
+            <button onclick="appendCharacter('8')" class="calc-btn bg-gray-700 hover:bg-gray-600 text-white text-2xl font-bold py-5 rounded-xl shadow-lg">8</button>
+            <button onclick="appendCharacter('9')" class="calc-btn bg-gray-700 hover:bg-gray-600 text-white text-2xl font-bold py-5 rounded-xl shadow-lg">9</button>
+            <button onclick="appendCharacter('*')" class="calc-btn bg-orange-500 hover:bg-orange-400 text-white text-2xl font-bold py-5 rounded-xl shadow-lg">×</button>
+            
+            <!-- Row 3 -->
+            <button onclick="appendCharacter('4')" class="calc-btn bg-gray-700 hover:bg-gray-600 text-white text-2xl font-bold py-5 rounded-xl shadow-lg">4</button>
+            <button onclick="appendCharacter('5')" class="calc-btn bg-gray-700 hover:bg-gray-600 text-white text-2xl font-bold py-5 rounded-xl shadow-lg">5</button>
+            <button onclick="appendCharacter('6')" class="calc-btn bg-gray-700 hover:bg-gray-600 text-white text-2xl font-bold py-5 rounded-xl shadow-lg">6</button>
+            <button onclick="appendCharacter('-')" class="calc-btn bg-orange-500 hover:bg-orange-400 text-white text-2xl font-bold py-5 rounded-xl shadow-lg">-</button>
+            
+            <!-- Row 4 -->
+            <button onclick="appendCharacter('1')" class="calc-btn bg-gray-700 hover:bg-gray-600 text-white text-2xl font-bold py-5 rounded-xl shadow-lg">1</button>
+            <button onclick="appendCharacter('2')" class="calc-btn bg-gray-700 hover:bg-gray-600 text-white text-2xl font-bold py-5 rounded-xl shadow-lg">2</button>
+            <button onclick="appendCharacter('3')" class="calc-btn bg-gray-700 hover:bg-gray-600 text-white text-2xl font-bold py-5 rounded-xl shadow-lg">3</button>
+            <button onclick="appendCharacter('+')" class="calc-btn bg-orange-500 hover:bg-orange-400 text-white text-2xl font-bold py-5 rounded-xl shadow-lg">+</button>
+            
+            <!-- Row 5 -->
+            <button onclick="appendCharacter('0')" class="calc-btn bg-gray-700 hover:bg-gray-600 text-white text-2xl font-bold py-5 rounded-xl shadow-lg col-span-2">0</button>
+            <button onclick="appendCharacter('.')" class="calc-btn bg-gray-700 hover:bg-gray-600 text-white text-2xl font-bold py-5 rounded-xl shadow-lg">.</button>
+            <button onclick="calculateResult()" class="calc-btn bg-orange-500 hover:bg-orange-400 text-white text-2xl font-bold py-5 rounded-xl shadow-lg">=</button>
         </div>
     </div>
 
+    <!-- Link to the external JavaScript file -->
+    <script src="javascrip.js"></script>
 </body>
-
 </html>
+
