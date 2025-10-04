@@ -1,23 +1,89 @@
-/* Custom styles for a better look and feel */
-body {
-    font-family: 'Inter', sans-serif;
-    -webkit-tap-highlight-color: transparent; /* Removes blue highlight on mobile tap */
+const display = document.getElementById('display');
+const operators = ['+', '-', '*', '/', '%'];
+
+// Function to append characters to the display with bug fixes
+function appendCharacter(char) {
+    const currentValue = display.value;
+    const lastChar = currentValue[currentValue.length - 1];
+
+    if (currentValue === 'Error') {
+        display.value = char;
+        return;
+    }
+    
+    if (operators.includes(char) && operators.includes(lastChar)) {
+        if ((lastChar === '*' || lastChar === '/') && char === '-') {
+            display.value += char;
+        } else {
+            display.value = currentValue.slice(0, -1) + char;
+        }
+        return;
+    }
+
+    if (char === '.') {
+        const numberSegments = currentValue.split(/[\+\-\*\/%]/);
+        if (numberSegments[numberSegments.length - 1].includes('.')) {
+            return;
+        }
+    }
+    
+    if (currentValue === '0' && char !== '.') {
+        display.value = char;
+    } else {
+        display.value += char;
+    }
 }
 
-/* Style for the calculator display input */
-#display {
-    caret-color: transparent; /* Hides the blinking cursor */
-    text-shadow: 0 0 2px rgba(255, 255, 255, 0.1);
-    font-size: 3.5rem; /* Slightly larger font for readability */
-    line-height: 1.2;
+// Function to clear the entire display
+function clearDisplay() {
+    display.value = '0';
 }
 
-/* Styling for the calculator buttons for a tactile feel */
-.calc-btn {
-    transition: all 0.1s ease-in-out;
+// Function to delete the last character
+function deleteLast() {
+    if (display.value === 'Error' || display.value.length === 1) {
+        display.value = '0';
+    } else {
+        display.value = display.value.slice(0, -1);
+    }
 }
 
-.calc-btn:active {
-    transform: scale(0.95);
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+// Function to calculate the result with improved logic
+function calculateResult() {
+    try {
+        let expression = display.value.replace(/×/g, '*').replace(/÷/g, '/');
+        expression = expression.replace(/(\d*\.?\d+)%/g, '($1/100)');
+        
+        const lastChar = expression[expression.length - 1];
+        if (operators.includes(lastChar) || (lastChar === '-' && (expression[expression.length-2] === '*' || expression[expression.length-2] === '/'))) {
+            expression = expression.slice(0, -1);
+        }
+
+        const result = eval(expression);
+
+        if (!isFinite(result)) {
+            display.value = 'Error';
+        } else {
+            display.value = String(parseFloat(result.toPrecision(12)));
+        }
+    } catch (error) {
+        display.value = 'Error';
+    }
 }
+
+// Add keyboard support for a better user experience
+document.addEventListener('keydown', (event) => {
+    event.preventDefault(); 
+    const key = event.key;
+    if (/[0-9]/.test(key) || key === '.') {
+        appendCharacter(key);
+    } else if (key === '+' || key === '-' || key === '*' || key === '/' || key === '%') {
+        appendCharacter(key);
+    } else if (key === 'Enter' || key === '=') {
+        calculateResult();
+    } else if (key === 'Backspace') {
+        deleteLast();
+    } else if (key === 'Escape' || key.toLowerCase() === 'c') {
+        clearDisplay();
+    }
+});
